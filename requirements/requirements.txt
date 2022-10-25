@@ -10,7 +10,7 @@ businesstimedelta==1.0.1
 holidays==0.11.3.1
 slack-sdk==3.5.0
 google-api-python-client==1.12.8
-google-auth==1.29.0
+google-auth==2.13.0
 beautifulsoup4==4.7.1
 pytest==6.2.3
 simple_salesforce==1.11.1
