@@ -26,6 +26,9 @@ services:
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
+            - AIRFLOW__SENTRY__SENTRY_ON=false
+            - AIRFLOW__SENTRY__SENTRY_DSN=https://07ea4a5d851bc918a1a104334cd6da09@o518737.ingest.sentry.io/4506672724574208
+            - SENTRY_ENVIRONMENT=dev
         logging:
             options:
                 max-size: 10m
