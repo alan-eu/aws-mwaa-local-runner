@@ -22,6 +22,10 @@ services:
             - LOAD_EX=n
             - EXECUTOR=Local
             - AIRFLOW__WEBSERVER__WORKERS=1
+            - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=true
+            - AIRFLOW__SENTRY__SENTRY_ON
+            - AIRFLOW__SENTRY__SENTRY_DSN
+            - SENTRY_ENVIRONMENT=dev
         logging:
             options:
                 max-size: 10m
