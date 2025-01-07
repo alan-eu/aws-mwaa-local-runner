@@ -21,6 +21,11 @@ services:
     environment:
       - LOAD_EX=n
       - EXECUTOR=Local
+      - AIRFLOW__WEBSERVER__WORKERS=1
+      - AIRFLOW__WEBSERVER__EXPOSE_CONFIG=true
+      - AIRFLOW__SENTRY__SENTRY_ON
+      - AIRFLOW__SENTRY__SENTRY_DSN
+      - SENTRY_ENVIRONMENT=dev
     logging:
       options:
         max-size: 10m
@@ -30,6 +35,7 @@ services:
       - "${PWD}/plugins:/usr/local/airflow/plugins"
       - "${PWD}/requirements:/usr/local/airflow/requirements"
       - "${PWD}/startup_script:/usr/local/airflow/startup"
+      - "${HOME}/.aws:/usr/local/airflow/.aws"
     ports:
       - "8080:8080"
     command: local-runner
@@ -40,3 +46,4 @@ services:
       retries: 3
     env_file:
       - ./config/.env.localrunner
+      - ./config/.env.aws
