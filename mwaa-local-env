@@ -3,19 +3,6 @@
 AIRFLOW_VERSION=2_10
 DOCKER_COMPOSE_PROJECT_NAME=aws-mwaa-local-runner-$AIRFLOW_VERSION
 
-# Detect available docker compose command
-detect_docker_compose() {
-   if command -v docker-compose >/dev/null 2>&1; then
-      echo "docker-compose"
-   elif docker compose version >/dev/null 2>&1; then
-      echo "docker compose"
-   else
-      echo ""
-   fi
-}
-
-DOCKER_COMPOSE_CMD=$(detect_docker_compose)
-
 display_help() {
    # Display Help
    echo "======================================"
@@ -43,10 +30,11 @@ validate_prereqs() {
       echo -e "Docker is Installed. \xE2\x9C\x94"
    fi
 
-   if [ -z "$DOCKER_COMPOSE_CMD" ]; then
-      echo -e "Neither 'docker-compose' nor 'docker compose' is available. \xE2\x9D\x8C"
+  docker compose -v >/dev/null 2>&1
+   if [ $? -ne 0 ]; then
+      echo -e "Docker compose is not installed. \xE2\x9D\x8C"
    else
-      echo -e "Docker compose is Installed ($DOCKER_COMPOSE_CMD). \xE2\x9C\x94"
+      echo -e "Docker compose is installed \xE2\x9C\x94"
    fi
 
    python3 --version >/dev/null 2>&1
@@ -106,10 +94,10 @@ build-image)
    build_image
    ;;
 reset-db)
-   $DOCKER_COMPOSE_CMD -p $DOCKER_COMPOSE_PROJECT_NAME -f ./docker/docker-compose-resetdb.yml up --abort-on-container-exit
+   docker compose -p $DOCKER_COMPOSE_PROJECT_NAME -f ./docker/docker-compose-resetdb.yml up --abort-on-container-exit
    ;;
 start)
-   $DOCKER_COMPOSE_CMD -p $DOCKER_COMPOSE_PROJECT_NAME -f ./docker/docker-compose-local.yml up
+   docker compose -p $DOCKER_COMPOSE_PROJECT_NAME -f ./docker/docker-compose-local.yml up
    ;;
 help)
    display_help
